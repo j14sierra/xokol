@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Service extends Model
 {
 
@@ -20,4 +20,8 @@ class Service extends Model
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
+
+    public function projects(): BelongsToMany{
+        return $this->belongsToMany(Project::class)->withTimestamps();
+    }
 }

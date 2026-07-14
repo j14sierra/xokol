@@ -4,6 +4,7 @@ use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\ProjectController;
 
 
 // Route::get('/', function () {
@@ -38,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/services/{service}/edit', [Admin\ServiceController::class, 'edit'])->name('admin.services.edit');
     Route::put('admin/services/{service}', [Admin\ServiceController::class, 'update'])->name('admin.services.update');
     Route::delete('admin/services/{service}', [Admin\ServiceController::class, 'destroy'])->name('admin.services.destroy');
+    // Rutas para la gestión de proyectos
+    Route::resource('admin/projects', ProjectController::class)->names('admin.projects');
 });
 
 require __DIR__.'/auth.php';
