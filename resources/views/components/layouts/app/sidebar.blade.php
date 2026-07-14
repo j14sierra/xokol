@@ -13,7 +13,7 @@
                             <x-layouts.sidebar-link href="{{ route('admin.services.index') }}" icon='fas-cogs'
                                 :active="request()->routeIs('admin.services*')">Servicios</x-layouts.sidebar-link>
 
-                            <x-layouts.sidebar-link href="{{ route('admin.projects.index') }}" icon='fas-cogs'
+                            <x-layouts.sidebar-link href="{{ route('admin.projects.index') }}" icon='fas-briefcase'
                                 :active="request()->routeIs('admin.projects*')">Proyectos</x-layouts.sidebar-link>
 
                             <!-- Example two level -->
