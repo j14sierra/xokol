@@ -67,11 +67,11 @@
                         </td>
                         <td class="p-3">
                             <div class="flex justify-end gap-2">
-                                <a href="{{ route('admin.projects.edit', $project) }}"
+                                <a href=""
                                     class="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-700">Editar</a>
                                 <form
                                     method="POST"
-                                    action="{{ route('admin.projects.destroy', $project) }}">
+                                    action="#">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
