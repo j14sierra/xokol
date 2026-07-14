@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 class ProjectSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seeds the projects table with the predefined project records.
+     *
+     * Existing records are updated by title, and missing records are inserted.
      */
     public function run(): void
     {

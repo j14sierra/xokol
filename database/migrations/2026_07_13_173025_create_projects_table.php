@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Creates the `projects` table with project details, status, engagement counts, and timestamps.
      */
     public function up(): void
     {
@@ -26,7 +26,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Removes the projects table if it exists.
      */
     public function down(): void
     {

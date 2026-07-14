@@ -21,6 +21,11 @@ class Service extends Model
         'sort_order' => 'integer',
     ];
 
+    /**
+     * Defines the projects associated with the service.
+     *
+     * @return BelongsToMany The service's project relationship.
+     */
     public function projects(): BelongsToMany{
         return $this->belongsToMany(Project::class)->withTimestamps();
     }

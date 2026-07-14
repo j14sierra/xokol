@@ -10,7 +10,9 @@ use App\Models\Project;
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Displays the project listing.
+     *
+     * @return View The project listing view populated with all projects.
      */
     public function index(): View
     {
@@ -35,7 +37,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Displays the specified project resource.
      */
     public function show(string $id)
     {
@@ -43,7 +45,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Defines the edit action for a project resource.
+     *
+     * @param string $id The identifier of the project to edit.
      */
     public function edit(string $id)
     {
@@ -51,7 +55,10 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Updates a project resource.
+     *
+     * @param Request $request The request containing the updated project data.
+     * @param string $id The project identifier.
      */
     public function update(Request $request, string $id)
     {
