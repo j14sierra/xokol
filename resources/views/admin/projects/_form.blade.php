@@ -1,6 +1,6 @@
 @php
     $isEdit = isset($project);
-    // TODO: Definir $selectedServices
+    $selectedServices = old('service_ids', $isEdit ? $project->services->pluck('id')->all() : []);
 @endphp
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -24,33 +24,62 @@
 
     <div>
         <label for="image_carousel" class="block text-sm font-medium mb-1">Imagen Carousel <span class="text-red-500">*</span></label>
-        <input id="image_carousel" name="image_carousel" type="file" accept="image/*"
+        <input
+            id="image_carousel"
+            name="image_carousel"
+            type="file"
+            accept="image/*"
+            data-preview="preview_carousel"
+            onchange="previewImage(this, 'preview_carousel')"
             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 p-2">
+
+        <div class="mt-3">
+            <p class="text-sm text-gray-500 mb-2">Vista previa:</p>
+            <img
+                id="preview_carousel"
+                src="{{ $isEdit && $project->image_carousel ? Storage::url($project->image_carousel) : '' }}"
+                class="w-56 h-40 object-cover rounded-lg border border-gray-300 dark:border-gray-700 {{ !$isEdit || !$project->image_carousel ? 'hidden' : '' }}">
+        </div>
         @error('image_carousel')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
-        {{-- //TODO: mostrar imagen (si es formulario de editar) --}}
+ 
        
     </div>
 
     <div>
         <label for="image_grid" class="block text-sm font-medium mb-1">Imagen Grid <span class="text-red-500">*</span></label>
-        <input id="image_grid" name="image_grid" type="file" accept="image/*"
+        <input
+            id="image_grid"
+            name="image_grid"
+            type="file"
+            accept="image/*"
+            data-preview="preview_grid"
+            onchange="previewImage(this, 'preview_grid')"
             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 p-2">
+
+        <div class="mt-3">
+            <p class="text-sm text-gray-500 mb-2">Vista previa:</p>
+            <img
+                id="preview_grid"
+                src="{{ $isEdit && $project->image_grid ? Storage::url($project->image_grid) : '' }}"
+                class="w-56 h-40 object-cover rounded-lg border border-gray-300 dark:border-gray-700 {{ !$isEdit || !$project->image_grid ? 'hidden' : '' }}">
+        </div>
         @error('image_grid')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
-        {{-- //TODO: mostrar imagen (si es formulario de editar) --}}
-       
+   
+      
+
     </div>
 
     <div>
         <label for="grid_image_size" class="block text-sm font-medium mb-1">Tamano Grid</label>
         <select id="grid_image_size" name="grid_image_size"
             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 p-2" required>
-            <option value="1" @selected(old('grid_image_size', $project->grid_image_size ?? '1') === '1')>1</option>
-            <option value="2" @selected(old('grid_image_size', $project->grid_image_size ?? '1') === '2')>2</option>
-            <option value="3" @selected(old('grid_image_size', $project->grid_image_size ?? '1') === '3')>3</option>
+            <option value="1" @selected((string) old('grid_image_size', $project->grid_image_size ?? '1') === '1')>1</option>
+            <option value="2" @selected((string) old('grid_image_size', $project->grid_image_size ?? '1') === '2')>2</option>
+            <option value="3" @selected((string) old('grid_image_size', $project->grid_image_size ?? '1') === '3')>3</option>
         </select>
         @error('grid_image_size')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -97,3 +126,4 @@
     <a href="{{ route('admin.projects.index') }}"
         class="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700">Cancelar</a>
 </div>
+
