@@ -13,6 +13,9 @@
                             <x-layouts.sidebar-link href="{{ route('admin.services.index') }}" icon='fas-cogs'
                                 :active="request()->routeIs('admin.services*')">Servicios</x-layouts.sidebar-link>
 
+                            <x-layouts.sidebar-link href="{{ route('admin.projects.index') }}" icon='fas-cogs'
+                                :active="request()->routeIs('admin.projects*')">Proyectos</x-layouts.sidebar-link>
+
                             <!-- Example two level -->
                             <x-layouts.sidebar-two-level-link-parent title="Example two level" icon="fas-house"
                                 :active="request()->routeIs('two-level*')">
