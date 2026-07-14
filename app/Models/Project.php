@@ -16,6 +16,11 @@ class Project extends Model{
         'is_active',
     ];
 
+    /**
+     * Defines the attribute type casts for the project.
+     *
+     * @return array<string, string> The attribute names mapped to their cast types.
+     */
     protected function casts(): array{
 
         return [
@@ -25,6 +30,11 @@ class Project extends Model{
         ];
     }
 
+    /**
+     * Defines the services associated with the project.
+     *
+     * @return BelongsToMany The project's service relationship.
+     */
     public function services(): BelongsToMany{
         return $this->belongsToMany(Service::class)->withTimestamps();
     }
