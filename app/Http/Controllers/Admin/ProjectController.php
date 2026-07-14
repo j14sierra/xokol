@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Project;
+use App\Models\Service;
 
 class ProjectController extends Controller
 {
@@ -23,7 +24,8 @@ class ProjectController extends Controller
      */
     public function create(): View
     {
-        return view('admin.projects.create');
+        $services = Service::all();
+        return view('admin.projects.create', compact('services'));
     }
 
     /**
@@ -31,7 +33,32 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        //validación de los datos del formulario
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'image_carousel' => 'required|image|max:5120',
+            'image_grid' => 'required|image|max:5120',
+            'grid_image_size' => 'integer',
+            'is_active' => 'boolean',
+            'service_ids' => 'nullable|array',
+            'service_ids.*' => 'integer|exists:services,id',
+
+        ]);
+
+        //Storage de las imágenes
+        if ($request->hasFile('image_carousel')) {
+            $validatedData['image_carousel'] = $request->file('image_carousel')->store('projects/carousel', 'public');
+        }
+        if ($request->hasFile('image_grid')) {
+            $validatedData['image_grid'] = $request->file('image_grid')->store('projects/grid', 'public');
+      
+        }   
+
+         Project::create($validatedData);
+         return redirect()->route('admin.projects.index')->with('success', 'Proyecto creado exitosamente.');
     }
 
     /**
