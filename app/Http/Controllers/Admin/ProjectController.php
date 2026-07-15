@@ -9,7 +9,8 @@ use App\Models\Project;
 use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
-
+use App\Http\Requests\Admin\StoreProjectRequest;
+use App\Http\Requests\Admin\UpdateProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -34,30 +35,17 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreProjectRequest $request): RedirectResponse
     {
-
-
-        //validación de los datos del formulario
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'image_carousel' => 'required|image|max:5120',
-            'image_grid' => 'required|image|max:5120',
-            'grid_image_size' => 'integer',
-            'is_active' => 'boolean',
-            'service_ids' => 'nullable|array',
-            'service_ids.*' => 'integer|exists:services,id',
-
-        ]);
-
+        //validación de datos con request
+        $Data = $request->validated();
         //Storage de las imágenes
     
-            $validatedData['image_carousel'] = $request->file('image_carousel')->store('projects/carousel', 'public');
-            $validatedData['image_grid'] = $request->file('image_grid')->store('projects/grid', 'public');
+            $Data['image_carousel'] = $request->file('image_carousel')->store('projects/carousel', 'public');
+            $Data['image_grid'] = $request->file('image_grid')->store('projects/grid', 'public');
       
-         $project = Project::create($validatedData);
-         $project->services()->sync($validatedData['service_ids']);
+         $project = Project::create($Data);
+         $project->services()->sync($Data['service_ids']);
          return redirect()->route('admin.projects.index')->with('success', 'Proyecto creado exitosamente.');
     }
 
@@ -85,47 +73,48 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project) : RedirectResponse
+    public function update(UpdateProjectRequest $request, Project $project) : RedirectResponse
     {
-
-        //validare los datos del formulario
-         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'image_carousel' => 'nullable|image|max:5120',
-            'image_grid' => 'nullable|image|max:5120',
-            'grid_image_size' => 'integer',
-            'is_active' => 'boolean',
-            'service_ids' => 'nullable|array',
-            'service_ids.*' => 'integer|exists:services,id',
-
-        ]);
+        //validar los datos en la actualizacoón con FormRequest
+         $data = $request->validated();
 
         //Storage de las imágenes
         if ($request->hasFile('image_carousel')) {
             if($project->image_carousel) {
                 Storage::disk('public')->delete($project->image_carousel);
             }
-            $validatedData['image_carousel'] = $request->file('image_carousel')->store('projects/carousel', 'public');
+            $data['image_carousel'] = $request->file('image_carousel')->store('projects/carousel', 'public');
         }
         if ($request->hasFile('image_grid')) {
             if($project->image_grid) {
                 Storage::disk('public')->delete($project->image_grid);
             }
-            $validatedData['image_grid'] = $request->file('image_grid')->store('projects/grid', 'public');
+            $data['image_grid'] = $request->file('image_grid')->store('projects/grid', 'public');
         }
         
 
-        $project->update($validatedData);
-        $project->services()->sync($validatedData['service_ids'] ?? []);
+        $project->update($data);
+        $project->services()->sync($data['service_ids'] ?? []);
         return redirect()->route('admin.projects.index')->with('success', 'Proyecto actualizado exitosamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project): RedirectResponse
     {
-        //
+       if($project->image_carousel) {
+                Storage::disk('public')->delete($project->image_carousel);
+            }
+
+         if($project->image_grid) {
+                Storage::disk('public')->delete($project->image_grid);
+            }
+
+        //desvincular los servicios
+        $project->services()->detach();
+        //eliminar el proyecto
+        $project->delete($project);
+        return redirect()->back()->with('success', 'Proyecto eliminado exitosamente.');
     }
 }
