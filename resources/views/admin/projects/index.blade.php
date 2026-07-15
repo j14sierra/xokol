@@ -31,6 +31,7 @@
                     <th class="text-left p-3">Proyecto</th>
                     <th class="text-left p-3">Servicios</th>
                     <th class="text-left p-3">Estado</th>
+                    <th class="text-left p-3">Tamaño Grid</th>
                     <th class="text-right p-3">Acciones</th>
                 </tr>
             </thead>
@@ -44,18 +45,25 @@
                         <td class="p-3">
                             <div class="flex flex-wrap gap-1">
                     
-                                {{-- @forelse ( $project->services as $service )
+                                @forelse ( $project->services as $service )
+                                   @if($service->is_active)
                                     <span
-                                        class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                                        class="text-xs px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
                                         {{ $service->name }}
                                     </span>
-                                    
+                                @else
+                                    <span
+                                        class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300">
+                                        <span class="line-through">{{ $service->name }}</span>
+                                        <span class="font-semibold">(Inactivo)</span>
+                                    </span>
+                                @endif
                                 @empty
                                     <span
                                         class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
                                         Sin servicios asociados
                                     </span>
-                                @endforelse --}}
+                                @endforelse
                     
                             </div>
                         </td>
@@ -66,12 +74,19 @@
                             </span>
                         </td>
                         <td class="p-3">
+                            <span
+                                class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                                {{ $project->grid_image_size }}
+                            </span>
+                        </td>
+                        <td class="p-3">
                             <div class="flex justify-end gap-2">
                                 <a href="{{ route('admin.projects.edit', $project) }}"
                                     class="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-700">Editar</a>
                                 <form
                                     method="POST"
-                                    action="{{ route('admin.projects.destroy', $project) }}">
+                                    action="{{ route('admin.projects.destroy', $project) }}"
+                                    onsubmit="return confirm('¿Realmente deseas eliminar el projecto: {{$project->title}}?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
