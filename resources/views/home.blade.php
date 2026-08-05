@@ -53,10 +53,10 @@
             <div class="flex flex-col md:flex-row items-center justify-between mb-12 gap-8">
                 <h2 class="text-4xl font-bold tracking-tight">Proyectos <span class="text-primary">Destacados</span></h2>
                 <div class="flex flex-wrap gap-3">
-                    <button class="px-6 py-2 rounded-full bg-primary text-background-dark font-bold text-sm">Todos</button>
-                    <button class="px-6 py-2 rounded-full bg-card-dark border border-border-dark hover:border-primary/50 text-slate-300 font-bold text-sm transition-all">Branding</button>
-                    <button class="px-6 py-2 rounded-full bg-card-dark border border-border-dark hover:border-primary/50 text-slate-300 font-bold text-sm transition-all">Digital</button>
-                    <button class="px-6 py-2 rounded-full bg-card-dark border border-border-dark hover:border-primary/50 text-slate-300 font-bold text-sm transition-all">Motion</button>
+                    <a href="{{ route('index') }}#proyectos" class="px-6 py-2 rounded-full {{ $selectedService === null ? 'bg-primary text-background-dark' : 'border border-border-dark text-slate-400' }} font-bold text-sm">Todos</a>
+                    @foreach ($services as $service)
+                        <a href="{{ route('index', ['service' => $service->id]) }}#proyectos" class="px-6 py-2 rounded-full {{ (string) $selectedService === (string) $service->id ? 'bg-primary text-background-dark' : 'border border-border-dark text-slate-400' }} font-bold text-sm hover:border-primary hover:text-primary transition-all">{{ $service->name }}</a>
+                    @endforeach
                 </div>
             </div>
             <div class="masonry-grid">
