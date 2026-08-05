@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProjectController;
 // })->name('home');
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::post('/contact', [HomeController::class, 'sendContactEmail'])->name('contact');
 
 Route::get('/project', function () {
     return view('project');

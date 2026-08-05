@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ContactFormRequest;
 use App\Models\Service;
 use App\Models\Project;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactFormMail;
 
 
 class HomeController extends Controller
@@ -32,4 +35,19 @@ class HomeController extends Controller
 
         return view('home', compact('services', 'projects', 'selectedService'));
     }
+
+    public function sendContactEmail(ContactFormRequest $request) 
+    {
+    
+        $data = $request->validated();
+
+
+
+        // Aquí puedes enviar el correo electrónico usando Mail::to()->send() o cualquier otra lógica que necesites.
+        
+        Mail::to(config('mail.from.address'))
+            ->send(new ContactFormMail($data));
+
+        return redirect()->route('index')->with('success', '¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.');
+    }   
 }
