@@ -77,7 +77,8 @@ class ProjectController extends Controller
     {
         //validar los datos en la actualizacoón con FormRequest
          $data = $request->validated();
-
+         $servicesIds = $data['service_ids'] ?? [];
+         unset($data['service_ids']); // Eliminar service_ids del array de datos para evitar errores al actualizar el proyecto
         //Storage de las imágenes
         if ($request->hasFile('image_carousel')) {
             if($project->image_carousel) {
@@ -91,10 +92,9 @@ class ProjectController extends Controller
             }
             $data['image_grid'] = $request->file('image_grid')->store('projects/grid', 'public');
         }
-        
-
+        // Actualizar el proyecto y sincronizar los servicios
         $project->update($data);
-        $project->services()->sync($data['service_ids'] ?? []);
+        $project->services()->sync($servicesIds);
         return redirect()->route('admin.projects.index')->with('success', 'Proyecto actualizado exitosamente.');
     }
 
