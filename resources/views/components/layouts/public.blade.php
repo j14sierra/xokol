@@ -10,10 +10,12 @@
         {{ $title }}
     </title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -66,6 +68,29 @@
                 grid-row: span 1;
                 aspect-ratio: 4/5;
             }
+        }
+// Estilos para el selector de país del teléfono
+        .iti__flag-container {
+            background: #111827 !important;
+            border: 1px solid #374151 !important;
+        }
+        .iti__country-list {
+            background: #111827 !important;
+            color: #fff !important;
+            border: 1px solid #374151;
+        }
+
+        .iti__country {
+            color: #fff !important;
+        }
+
+        .iti__country:hover,
+        .iti__country.iti__highlight {
+            background: #1f2937 !important;
+        }
+
+        .iti__dial-code {
+            color: #9ca3af !important;
         }
     </style>
     @stack('styles')
