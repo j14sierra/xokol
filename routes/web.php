@@ -4,7 +4,7 @@ use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\ProjectController;
 
 
 // Route::get('/', function () {
@@ -14,9 +14,7 @@ use App\Http\Controllers\Admin\ProjectController;
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::post('/contact', [HomeController::class, 'sendContactEmail'])->name('contact');
 
-Route::get('/project', function () {
-    return view('project');
-});
+Route::get('/project/{project}', [ProjectController::class, 'index'])->name('project');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
