@@ -8,9 +8,8 @@ use App\Models\Service;
 use App\Models\Project;
 class ProjectController extends Controller
 {
-    public function index(Project $project) : View
+    public function index(Request $request, Project $project) : View
     {
-
         $services = Service::where('is_active', true)
             ->whereHas('projects', function ($query) {
                 $query->where('projects.is_active', true);
@@ -27,6 +26,16 @@ class ProjectController extends Controller
             ->orderBy('sort_order')
             ->take(3)
             ->get();
+            $this->incrementViewCount($request, $project->id);
         return view('project', compact('services', 'project', 'relatedProjects'));
+    }
+
+    private function incrementViewCount($request, $projectId): void
+    {
+        $sessionKey = "viewed_project_{$projectId}";
+        if (!$request->session()->has($sessionKey)) {
+            Project::whereKey($projectId)->increment('view_count');
+            $request->session()->put($sessionKey, true);
+        }
     }
 }
