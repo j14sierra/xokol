@@ -25,11 +25,11 @@
         <div class="absolute bottom-0 right-0 z-20 bg-primary px-8 py-6 hidden lg:flex items-center gap-12 rounded-tl-3xl">
             <div class="flex flex-col">
                 <span class="text-[10px] uppercase font-bold text-black/60 tracking-widest">Vistas</span>
-                <span class="text-2xl font-bold text-black tracking-tighter">14,208</span>
+                <span class="text-2xl font-bold text-black tracking-tighter">{{ number_format($project->view_count) }}</span>
             </div>
             <div class="flex flex-col">
                 <span class="text-[10px] uppercase font-bold text-black/60 tracking-widest">Likes</span>
-                <span class="text-2xl font-bold text-black tracking-tighter">2,841</span>
+                <span class="text-2xl font-bold text-black tracking-tighter">{{ number_format($project->like_count) }}</span>
             </div>
             <button class="group flex items-center gap-3 bg-black text-white px-6 py-3 rounded-xl hover:bg-neutral-900 transition-all">
                 <span class="material-symbols-outlined text-primary">favorite</span>
