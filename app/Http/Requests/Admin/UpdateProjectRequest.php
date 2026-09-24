@@ -30,7 +30,17 @@ class UpdateProjectRequest extends FormRequest
             'grid_image_size' => ['integer'],
             'is_active'       => ['boolean'],
             'service_ids'     => ['nullable', 'array'],
-            'service_ids.*'   => ['integer','exists:services,id']
+            'service_ids.*'   => ['integer','exists:services,id'],
+
+            'block_content_types' => ['nullable', 'array'],
+            'block_content_types.*' => ['nullable', 'string'],
+            'block_title' => ['nullable', 'array'],
+            'block_titles.*' => ['nullable', 'string'],
+            'block_contents' => ['nullable', 'array'],
+            'block_contents.*' => ['nullable', 'string'],
+            'block_images' => ['nullable', 'array'],
+            'block_images.*' => ['nullable', 'image', 'max:5120'],
+
         ];
     }
 }
