@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class Project extends Model{
@@ -27,6 +28,10 @@ class Project extends Model{
 
     public function services(): BelongsToMany{
         return $this->belongsToMany(Service::class)->withTimestamps();
+    }
+
+    public function contentBlocks(): HasMany{
+        return $this->hasMany(ProjectContentBlock::class);
     }
 
 }
