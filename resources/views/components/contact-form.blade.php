@@ -6,7 +6,7 @@
             <span class="block sm:inline">{{ session('success') }}</span>
         </div>
     @endif
-    <form method="POST" action="{{ route('contact') }}" class="space-y-8">
+    <form id="contactForm" method="POST" action="{{ route('contact') }}" class="space-y-8">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-2">
@@ -76,7 +76,7 @@
 <script>
     const input = document.querySelector("#phone");
     const phoneError = document.querySelector("#phoneError");
-    const form = document.querySelector("form");
+    const form = document.getElementById("contactForm");
     // const email = document.querySelector("#email");
     // const emailError = document.querySelector("#emailError");
 
