@@ -15,11 +15,11 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::post('/contact', [HomeController::class, 'sendContactEmail'])->name('contact');
 
 Route::get('/project/{project}', [ProjectController::class, 'index'])->name('project');
+Route::post('/project/{project}/register-like', [ProjectController::class, 'registerLike'])->name('project.register-like');
 
 Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
+->middleware(['auth', 'verified'])
+->name('dashboard');
 
 // Con usuario autenticado, se puede acceder a las rutas de configuración
 
@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('admin/services/{service}', [Admin\ServiceController::class, 'update'])->name('admin.services.update');
     Route::delete('admin/services/{service}', [Admin\ServiceController::class, 'destroy'])->name('admin.services.destroy');
     // Rutas para la gestión de proyectos
-    Route::resource('admin/projects', ProjectController::class)->names('admin.projects');
+    Route::resource('admin/projects', Admin\ProjectController::class)->names('admin.projects');
 });
 
 require __DIR__.'/auth.php';

@@ -69,7 +69,7 @@
                 aspect-ratio: 4/5;
             }
         }
-// Estilos para el selector de país del teléfono
+/* Estilos para el selector de país del teléfono */
         .iti__flag-container {
             background: #111827 !important;
             border: 1px solid #374151 !important;
