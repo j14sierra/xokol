@@ -69,7 +69,7 @@ public function __construct(private ProjectService $projectService)
     public function edit(Project $project): View
     {
      $services = Service::all();
-     $project->load('services');
+     $project->load('services', 'contentBlocks'); 
         return view('admin.projects.edit', [
             'services' => $services,
             'project' => $project,
