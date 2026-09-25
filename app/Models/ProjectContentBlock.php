@@ -13,12 +13,14 @@ class ProjectContentBlock extends Model
         'title',
         'content',
         'image_path',
+        'sort_order',
     ];
 
     protected function casts(): array
     {
         return [
             'project_id' => 'integer',
+            'sort_order' => 'integer',
         ];
     }
 
