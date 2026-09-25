@@ -31,7 +31,7 @@ class Project extends Model{
     }
 
     public function contentBlocks(): HasMany{
-        return $this->hasMany(ProjectContentBlock::class);
+        return $this->hasMany(ProjectContentBlock::class)->orderBy('sort_order');
     }
 
 }
